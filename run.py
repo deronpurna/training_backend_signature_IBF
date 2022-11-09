@@ -15,7 +15,6 @@ geodata_cb = json.load(f_cb)
 geodata_rh = json.load(f_rh)
 geodata_tp = json.load(f_tp)
 
-
 pelatihan_ibf_app = Flask(__name__)
 #run_with_ngrok(pelatihan_ibf_app) #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku  
 
