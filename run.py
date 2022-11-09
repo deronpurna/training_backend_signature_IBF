@@ -57,46 +57,53 @@ def send_json_data_equals():
     else:
       geodata = geodata_tp
     value = request.args.get('value')
-
-    dataquery = [p for p in geodata["features"] if p["properties"]["value"] == int(value)] #perhatikan jenis variable
-
-    return Response(response=json.dumps(dataquery),
-                    status=200,
-                    mimetype="application/json")
-
-@pelatihan_ibf_app.route('/morethan')
-def send_json_data_morethan():
-    param = request.args.get("var")
-    if param == "cb":
-      geodata = geodata_cb
-    elif param == "rh":
-      geodata = geodata_rh
+    operator = request.args.get("operator")
+    if operator == "morethan":
+      dataquery = [p for p in geodata["features"] if p["properties"]["value"] > int(value)]
+    elif operator == "lessthan":
+      dataquery = [p for p in geodata["features"] if p["properties"]["value"] < int(value)]
     else:
-      geodata = geodata_tp
-    value = request.args.get('value')
+      dataquery = [p for p in geodata["features"] if p["properties"]["value"] == int(value)]
 
-    dataquery = [p for p in geodata["features"] if p["properties"]["value"] > int(value)] #perhatikan jenis variable
-
-    return Response(response=json.dumps(dataquery),
-                    status=200,
-                    mimetype="application/json")
-
-@pelatihan_ibf_app.route('/lessthan')
-def send_json_data_lessthan():
-    param = request.args.get("var")
-    if param == "cb":
-      geodata = geodata_cb
-    elif param == "rh":
-      geodata = geodata_rh
-    else:
-      geodata = geodata_tp
-    value = request.args.get('value')
-
-    dataquery = [p for p in geodata["features"] if p["properties"]["value"] < int(value)] #perhatikan jenis variable
+    #dataquery = [p for p in geodata["features"] if p["properties"]["value"] == int(value)] #perhatikan jenis variable
 
     return Response(response=json.dumps(dataquery),
                     status=200,
                     mimetype="application/json")
+
+#@pelatihan_ibf_app.route('/morethan')
+# def send_json_data_morethan():
+#     param = request.args.get("var")
+#     if param == "cb":
+#       geodata = geodata_cb
+#     elif param == "rh":
+#       geodata = geodata_rh
+#     else:
+#       geodata = geodata_tp
+#     value = request.args.get('value')
+
+#     dataquery = [p for p in geodata["features"] if p["properties"]["value"] > int(value)] #perhatikan jenis variable
+
+#     return Response(response=json.dumps(dataquery),
+#                     status=200,
+#                     mimetype="application/json")
+
+# @pelatihan_ibf_app.route('/lessthan')
+# def send_json_data_lessthan():
+#     param = request.args.get("var")
+#     if param == "cb":
+#       geodata = geodata_cb
+#     elif param == "rh":
+#       geodata = geodata_rh
+#     else:
+#       geodata = geodata_tp
+#     value = request.args.get('value')
+
+#     dataquery = [p for p in geodata["features"] if p["properties"]["value"] < int(value)] #perhatikan jenis variable
+
+    # return Response(response=json.dumps(dataquery),
+    #                 status=200,
+    #                 mimetype="application/json")
 
 
 if __name__ == '__main__':
