@@ -47,8 +47,8 @@ def send_json_data_tp():
                     mimetype="application/json")
 
 
-@pelatihan_ibf_app.route('/equals')
-def send_json_data_equals():
+@pelatihan_ibf_app.route('/query')
+def send_json_data_query():
     param = request.args.get("var")
     if param == "cb":
       geodata = geodata_cb
