@@ -3,10 +3,10 @@ from flask import Response
 from flask_ngrok import run_with_ngrok #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku
 import json
 
-f = open('/content/training_backend_signature_IBF/training_backend_signature_IBF/about.json')
-f_cb = open('/content/training_backend_signature_IBF/training_backend_signature_IBF/dissolved_filter_clipped_CB_me_75.geojson')
-f_rh = open('/content/training_backend_signature_IBF/training_backend_signature_IBF/dissoloved_filter_clipped_RH_700_me_70.geojson')
-f_tp = open('/content/training_backend_signature_IBF/training_backend_signature_IBF/dissolved_filter_clipped_TP.geojson')
+f = open('./about.json')
+f_cb = open('./dissolved_filter_clipped_CB_me_75.geojson')
+f_rh = open('./dissoloved_filter_clipped_RH_700_me_70.geojson')
+f_tp = open('./dissolved_filter_clipped_TP.geojson')
 
 geodata = json.load(f) #ini udah jadi dictionary
 geodata_cb = json.load(f_cb)
