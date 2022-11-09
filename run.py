@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import Response
-from flask_ngrok import run_with_ngrok #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku
+#from flask_ngrok import run_with_ngrok #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku
 import json
 
 f = open('./about.json')
@@ -14,7 +14,7 @@ geodata_rh = json.load(f_rh)
 geodata_tp = json.load(f_tp)
 
 pelatihan_ibf_app = Flask(__name__)
-run_with_ngrok(pelatihan_ibf_app) #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku  
+#run_with_ngrok(pelatihan_ibf_app) #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku  
 
 @pelatihan_ibf_app.route('/')
 def send_json_data():
