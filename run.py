@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import Response
+from flask import request
 #from flask_ngrok import run_with_ngrok #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku
 import json
 
