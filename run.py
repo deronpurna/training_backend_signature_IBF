@@ -130,6 +130,14 @@ def send_json_data_queryimpact():
                     status=200,
                     mimetype="application/json")
 
+@pelatihan_ibf_app.route('/impact/remove', methods=["POST"])
+def add_status():
+    req = json.loads(request.data)
+    geo["features"][:] = [d for d in geo["features"] if d["properties"].get('id') != req["id"]]
+    return Response(response={"removed": req["id"]},
+                    status=200,
+                    mimetype="application/json")
+    
 
 if __name__ == '__main__':
     pelatihan_ibf_app.run()
