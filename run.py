@@ -54,7 +54,7 @@ def send_json_data_query():
       geodata = geodata_cb
     elif param == "rh":
       geodata = geodata_rh
-    else:
+    elif param == "tp":
       geodata = geodata_tp
     value = request.args.get('value')
     operator = request.args.get("operator")
@@ -62,10 +62,8 @@ def send_json_data_query():
       dataquery = [p for p in geodata["features"] if p["properties"]["value"] > int(value)]
     elif operator == "lessthan":
       dataquery = [p for p in geodata["features"] if p["properties"]["value"] < int(value)]
-    else:
+    elif operator == "equals":
       dataquery = [p for p in geodata["features"] if p["properties"]["value"] == int(value)]
-
-    #dataquery = [p for p in geodata["features"] if p["properties"]["value"] == int(value)] #perhatikan jenis variable
 
     return Response(response=json.dumps(dataquery),
                     status=200,
