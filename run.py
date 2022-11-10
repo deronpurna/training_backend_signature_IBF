@@ -65,7 +65,7 @@ def send_json_data_query():
     elif operator == "equals":
       dataquery = [p for p in geodata["features"] if p["properties"]["value"] == int(value)]
 
-    return Response(response=json.dumps({"type": "FeatureCollection","features": [dataquery]}),
+    return Response(response=json.dumps({"type": "FeatureCollection","features": dataquery}),
                     status=200,
                     mimetype="application/json")
 
