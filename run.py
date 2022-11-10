@@ -77,7 +77,7 @@ def send_json_data_query():
 @pelatihan_ibf_app.route('/impact', methods=["GET"])
 def send_status():
     req = json.loads(request.data)
-    return Response(response=json.dumps(geo),
+    return Response(response=json.dumps(geo)),
                     status=200,
                     mimetype="application/json")
 
