@@ -76,11 +76,20 @@ def send_json_data_query():
 
 @pelatihan_ibf_app.route('/impact', methods=["GET"])
 def send_status():
+  try:
     req = json.loads(request.data)
-    return Response(response=json.dumps(geo)),
+    return Response(response=json.dumps(geo),
                     status=200,
                     mimetype="application/json")
-
+  except:
+    res = {
+          "error": True,
+          "message": "Key tidak ditemukan"
+          }
+    return Response(response=json.dumps(res),
+                      status=404,
+                      mimetype="application/json")
+                      
 @pelatihan_ibf_app.route('/impact/add', methods=["POST"])
 def add_status():
   try:
