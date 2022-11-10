@@ -4,6 +4,8 @@ from flask import request
 #from flask_ngrok import run_with_ngrok #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku
 import json
 
+from flask_cors import CORS
+
 from jinja2.environment import internalcode
 
 f = open('./about.json')
@@ -18,6 +20,8 @@ geodata_tp = json.load(f_tp)
 
 pelatihan_ibf_app = Flask(__name__)
 #run_with_ngrok(pelatihan_ibf_app) #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku  
+CORS(pelatihan_ibf_app)
+
 
 @pelatihan_ibf_app.route('/')
 def send_json_data():
