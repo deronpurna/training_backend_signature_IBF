@@ -92,9 +92,11 @@ def send_status():
                       
 @pelatihan_ibf_app.route('/impact/add', methods=["POST"])
 def add_status():
+  var_boleh=['rain','thunderstorm','gale']
   try:
     req = json.loads(request.data)
-    geo.append(copy.copy(req))
+    if req["properties"]["type"] in var_boleh and 0<req["properties"]["category"] and req["properties"]["category"]<=10:
+      geo.append(copy.copy(req))
     return Response(response=json.dumps(geo),
                     status=200,
                     mimetype="application/json")
