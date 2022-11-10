@@ -77,7 +77,6 @@ def send_json_data_query():
 @pelatihan_ibf_app.route('/impact', methods=["GET"])
 def send_status():
   try:
-    #req = json.loads(request.data)
     return Response(response=json.dumps(geo),
                     status=200,
                     mimetype="application/json")
@@ -89,14 +88,16 @@ def send_status():
     return Response(response=json.dumps(res),
                       status=404,
                       mimetype="application/json")
-                      
+           
+
 @pelatihan_ibf_app.route('/impact/add', methods=["POST"])
 def add_status():
   var_boleh=['rain','thunderstorm','gale']
   try:
     req = json.loads(request.data)
-    if req["properties"]["type"] in var_boleh and 0<req["properties"]["category"] and req["properties"]["category"]<=10:
-      geo.append(copy.copy(req))
+    for a in range(len(req["features"])):
+      if req["features"][a]["properties"]["type"] in var_boleh and 0<req["features"][a]["properties"]["category"] and req["features"][a]["properties"]["category"]<=10:
+        geo["features"].append(copy.copy(req["features"][a]))
     return Response(response=json.dumps(geo),
                     status=200,
                     mimetype="application/json")
@@ -115,13 +116,13 @@ def send_json_data_queryimpact():
     value = request.args.get('category')
     operator = request.args.get("operator")
     if operator == "morethan":
-      dataquery2 = [p for p in geo if p["properties"]["category"] > int(value) and p["properties"]["type"] == variable]
+      dataquery2 = [p for p in geo["features"] if p["properties"]["category"] > int(value) and p["properties"]["type"] == variable]
     elif operator == "lessthan":
-      dataquery2 = [p for p in geo if p["properties"]["category"] < int(value) and p["properties"]["type"] == variable]
+      dataquery2 = [p for p in geo["features"] if p["properties"]["category"] < int(value) and p["properties"]["type"] == variable]
     elif operator == "equals":
-      dataquery2 = [p for p in geo if p["properties"]["category"] == int(value) and p["properties"]["type"] == variable]
+      dataquery2 = [p for p in geo["features"] if p["properties"]["category"] == int(value) and p["properties"]["type"] == variable]
 
-    return Response(response=json.dumps({"type": "FeatureCollection","features": dataquery2}),
+    return Response(response=json.dumps(dataquery2),
                     status=200,
                     mimetype="application/json")
 
