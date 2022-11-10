@@ -3,10 +3,10 @@ from flask import Response
 from flask import request
 #from flask_ngrok import run_with_ngrok #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku
 import json
-
+import copy
 from flask_cors import CORS
-
 from jinja2.environment import internalcode
+
 
 f = open('./about.json')
 f_cb = open('./dissolved_filter_clipped_CB_me_75.geojson')
@@ -17,6 +17,7 @@ geodata = json.load(f) #ini udah jadi dictionary
 geodata_cb = json.load(f_cb)
 geodata_rh = json.load(f_rh)
 geodata_tp = json.load(f_tp)
+geo = []
 
 pelatihan_ibf_app = Flask(__name__)
 #run_with_ngrok(pelatihan_ibf_app) #hanya digunakan ketika menggunakan google colab dan tidak untuk di deploy ke heroku  
@@ -73,39 +74,45 @@ def send_json_data_query():
                     status=200,
                     mimetype="application/json")
 
-#@pelatihan_ibf_app.route('/morethan')
-# def send_json_data_morethan():
-#     param = request.args.get("var")
-#     if param == "cb":
-#       geodata = geodata_cb
-#     elif param == "rh":
-#       geodata = geodata_rh
-#     else:
-#       geodata = geodata_tp
-#     value = request.args.get('value')
+@pelatihan_ibf_app.route('/impact', methods=["GET"])
+def send_status():
+    req = json.loads(request.data)
+    return Response(response=json.dumps(geo),
+                    status=200,
+                    mimetype="application/json")
 
-#     dataquery = [p for p in geodata["features"] if p["properties"]["value"] > int(value)] #perhatikan jenis variable
+@pelatihan_ibf_app.route('/impact/add', methods=["POST"])
+def add_status():
+  try:
+    req = json.loads(request.data)
+    geo.append(copy.copy(req))
+    return Response(response=json.dumps(geo),
+                    status=200,
+                    mimetype="application/json")
+  except:
+    res = {
+          "error": True,
+          "message": "Key tidak ditemukan"
+          }
+    return Response(response=json.dumps(res),
+                      status=404,
+                      mimetype="application/json")
 
-#     return Response(response=json.dumps(dataquery),
-#                     status=200,
-#                     mimetype="application/json")
+@pelatihan_ibf_app.route('/queryimpact')
+def send_json_data_queryimpact():
+    variable = request.args.get('type')
+    value = request.args.get('category')
+    operator = request.args.get("operator")
+    if operator == "morethan":
+      dataquery2 = [p for p in geo if p["properties"]["category"] > int(value) and p["properties"]["type"] == variable]
+    elif operator == "lessthan":
+      dataquery2 = [p for p in geo if p["properties"]["category"] < int(value) and p["properties"]["type"] == variable]
+    elif operator == "equals":
+      dataquery2 = [p for p in geo if p["properties"]["category"] == int(value) and p["properties"]["type"] == variable]
 
-# @pelatihan_ibf_app.route('/lessthan')
-# def send_json_data_lessthan():
-#     param = request.args.get("var")
-#     if param == "cb":
-#       geodata = geodata_cb
-#     elif param == "rh":
-#       geodata = geodata_rh
-#     else:
-#       geodata = geodata_tp
-#     value = request.args.get('value')
-
-#     dataquery = [p for p in geodata["features"] if p["properties"]["value"] < int(value)] #perhatikan jenis variable
-
-    # return Response(response=json.dumps(dataquery),
-    #                 status=200,
-    #                 mimetype="application/json")
+    return Response(response=json.dumps({"type": "FeatureCollection","features": dataquery2}),
+                    status=200,
+                    mimetype="application/json")
 
 
 if __name__ == '__main__':
