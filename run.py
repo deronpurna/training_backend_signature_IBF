@@ -18,6 +18,7 @@ geodata_cb = json.load(f_cb)
 geodata_rh = json.load(f_rh)
 geodata_tp = json.load(f_tp)
 
+#geo
 geo = {
   "type": "FeatureCollection",
   "features": []
